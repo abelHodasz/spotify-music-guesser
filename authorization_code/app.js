@@ -13,9 +13,9 @@ var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
-var client_id = 'CLIENT_ID'; // Your client id
-var client_secret = 'CLIENT_SECRET'; // Your secret
-var redirect_uri = 'REDIRECT_URI'; // Your redirect uri
+var client_id = '4ffe6ac0c26a470abe45f46b4ece2d9e'; // Your client id
+var client_secret = '94095ac102944ffbbcfed94d083dc889'; // Your secret
+var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
@@ -46,7 +46,7 @@ app.get('/login', function(req, res) {
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = 'user-read-private user-read-email';
+    var scope = 'streaming user-read-private user-read-email user-read-playback-state user-modify-playback-state user-follow-read playlist-read-collaborative playlist-read-private';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
@@ -88,7 +88,7 @@ app.get('/callback', function(req, res) {
 
     request.post(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
-
+          console.log("THIS IS THE ID: " + body.id);
         var access_token = body.access_token,
             refresh_token = body.refresh_token;
 
@@ -98,19 +98,27 @@ app.get('/callback', function(req, res) {
           json: true
         };
 
+
+          
+
         // use the access token to access the Spotify Web API
         request.get(options, function(error, response, body) {
-          console.log(body);
+            console.log(body);
+            var user_id = body.id;
+            // we can also pass the token to the browser to make requests from there
+            res.redirect('http://localhost:3000/Settings?' +
+                querystring.stringify({
+                    user_id: user_id,
+                    access_token: access_token,
+                    refresh_token: refresh_token,
+
+                }));
         });
 
-        // we can also pass the token to the browser to make requests from there
-        res.redirect('/#' +
-          querystring.stringify({
-            access_token: access_token,
-            refresh_token: refresh_token
-          }));
+         
+        
       } else {
-        res.redirect('/#' +
+        res.redirect('/' +
           querystring.stringify({
             error: 'invalid_token'
           }));
