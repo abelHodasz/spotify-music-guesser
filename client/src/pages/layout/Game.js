@@ -1,150 +1,152 @@
-import React from "react";
-import { Context } from "../../context";
+import React, { useState, useContext, useEffect } from "react";
+import Spotify from "spotify-web-api-js";
+import { UserContext } from "../../UserContext";
+import { Guessing } from "./Guessing";
+import Logger from "./Logger";
 
-export default class Game extends React.Component {
-    static contextType = Context;
+const Game = props => {
+    const [currentSong, setCurrentSong] = useState(null);
+    const [allSongs, setAllSongs] = useState([]);
+    const [positionMs, setPositionMs] = useState(15000);
+    const [playlists, setPlaylists] = useState(props.location.state);
+    const [pauseDurationMs, setPauseDurationMs] = useState(5000);
+    const [state, setState] = useContext(UserContext);
+    const [deviceId, setDeviceId] = useState(null);
+    const [playingSong, setPlayingSong] = useState(false);
+    const [guessing, setGuessing] = useState(false);
 
-     componentDidMount() {
+    let spotify = new Spotify();
+    spotify.setAccessToken(state.accessToken);
 
-        
-
-        
+    async function GetAllSongs() {
+        let songs = [];
+        for (let playlist of playlists) {
+            const fetchedSongs = await spotify.getPlaylistTracks(
+                state.userId,
+                playlist.id
+            );
+            songs.push(...fetchedSongs.items);
+        }
+        songs = shuffle(songs);
+        setAllSongs(songs);
     }
 
-    getDevices = () => {
-
-        this.context.state.spotify.getMyDevices()
-        .then(data => {
-            console.log(data.devices[0].id);
-            this.context.state.spotify.transferMyPlayback(
-                {device_ids:[data.devices[0].id]}
-            )
-            .then(
-                this.context.state.spotify.play(
-                    {device_id:data.devices[0].id}
-                )
-                .then()
-                .catch (e => console.log(e)))
-            .catch(error => console.log(error));
-        })
-        .catch(error => console.log(error));
+    const GetNextSong = () => {
+        if (allSongs.length == 0) {
+            console.log("No more songs");
+            return;
+        }
+        const random = getRandomNumber(allSongs.length);
+        const song = allSongs[random];
+        let songCopy = JSON.parse(JSON.stringify(song));
+        setCurrentSong(songCopy);
+        setAllSongs(
+            allSongs
+                .slice(0, random)
+                .concat(allSongs.slice(random + 1, allSongs.length))
+        );
     };
 
-    render() {
-        return (
-            <React.Fragment>
-                <button onClick={this.getDevices}>Get Devices</button>
-            </React.Fragment>
-        );
-    }
-    /*
-    constructor(props) {
-        super(props);
-        props = props.location.state;
-        this.state = {
-            fetchedPlaylists: {},
-            duration: 3000,
-            currentSong: null,
-            positionMs: 5000,
-        }
-    }
-
-    choseSong(playlist) {
-        console.log("Choosing song...")
-        if (playlist.id in this.state.fetchedPlaylists) {
-            let chosenPlaylist = this.state.fetchedPlaylists[playlist.id];
-            if (chosenPlaylist == {}) {
-                this.choseSong(this.chosePlaylist());
-                return;
+    const getDevices = () => {
+        console.log("Getting devices");
+        spotify
+            .getMyDevices()
+            .then(data => {
+                console.log(data.devices);
+                if (data.devices.length == 0) {
+                    setDeviceId("No device");
+                } else setDeviceId(data.devices[0].id);
+            })
+            .catch(err => {
+                Logger(err, "Get Devices");
+                /*
+            if(JSON.parse(err.response).error.message === "The access token expired"){
+                window.location.href = "/";
             }
-            let randomIndex = this.getRandomNumber(chosenPlaylist.length);
-            let song = chosenPlaylist[randomIndex];
-            delete chosenPlaylist[randomIndex];
-            if (song.track.name.length > 25) {
-                this.choseSong(playlist);
-                return;
-            }
-            console.log(song);
-            console.log("Chosen song: " + song.track.artists[0].name + " - " + song.track.name);
-            this.setState({ currentSong: song });
+            */
+            });
+    };
 
-        }
-        else {
-            console.log("Playlist id: " + playlist.id);
-            console.log("User id: " + this.state.userId);
-            spotifyWebApi.getPlaylistTracks(this.state.userId, playlist.id)
-                .then((data) => {
-                    this.setState(
-                        (state) => {
-                            let newDict = state.fetchedPlaylists;
-                            newDict[playlist.id] = data.items;
-                            return {
-                                fetchedPlaylists: newDict
-                            };
-                        }
-                    )
-                    this.choseSong(playlist);
-                });
-        }
+    async function PlayCurrentSong() {
+        if (currentSong == null || deviceId == null) return;
+        setGuessing(true);
+        setPlayingSong(true);
+        console.log(currentSong);
+        spotify
+            .play({
+                "uris": [currentSong.track.uri],
+                "device_id": deviceId,
+                "position_ms": positionMs
+            })
+            .catch(err => {
+                Logger(err, "Play Song");
+                setPlayingSong(false);
+            });
     }
 
-
-    chosePlaylist() {
-        let randomPlaylist = this.state.playlists[this.getRandomNumber(this.state.playlists.length)];
-        return randomPlaylist;
+    function PauseCurrentSong() {
+        if (deviceId == null) return;
+        setPlayingSong(false);
+        spotify
+            .pause({
+                device_id: deviceId
+            })
+            .catch(err => Logger(err, "Pause Song"));
     }
 
+    useEffect(() => {
+        getDevices();
+    }, []);
 
-    getRandomNumber(upperLimit) {
-        return Math.floor(Math.random() * upperLimit);
-    }
+    useEffect(() => {
+        GetAllSongs();
+    }, [deviceId]);
 
+    useEffect(() => {
+        PlayCurrentSong();
+        setTimeout(PauseCurrentSong, pauseDurationMs);
+    }, [currentSong]);
 
-    componentDidMount() {
-        spotifyWebApi.setAccessToken(this.state.accessToken);
-        this.choseSong(this.chosePlaylist());
-    }
-
-
-    render() {
+    if (deviceId == "No device") {
         return (
             <div>
-                <BeforeStart currentSong={this.state.currentSong} duration={this.state.duration} positionMs={this.state.positionMs} />
+                No active device found! Please open spotify and play a track!
+                <button onClick={getDevices}>Try again!</button>
             </div>
         );
     }
-
-}
-
-
-function BeforeStart(props) {
     return (
-        <div>
-            <h2></h2>
-            <button onClick={() => playSong(props.currentSong, props.duration, props.positionMs)}>Play</button>
-        </div>
-    )
+        <React.Fragment>
+            {guessing ? (
+                <Guessing
+                    name={currentSong.track.name}
+                    artists={currentSong.track.artists.map(
+                        artist => artist.name
+                    )}
+                    setGuessing={setGuessing}
+                />
+            ) : playingSong ? (
+                <React.Fragment />
+            ) : (
+                <button onClick={GetNextSong}>Play</button>
+            )}
+        </React.Fragment>
+    );
+};
+
+function getRandomNumber(upperLimit) {
+    return Math.floor(Math.random() * upperLimit);
 }
 
-
-    playSong(song, duration, positionMs) {
-        console.log("Now Playing " + song.track.name + " from " + (positionMs / 1000) + " seconds for " + (duration / 1000) + " seconds");
-        try {
-            spotifyWebApi.play({
-                "uris": [song.track.uri],
-                "position_ms": positionMs,
-            }).then(
-                setTimeout(() => {
-                    spotifyWebApi.pause({}).then(
-                        console.log("Playback ended")
-                    )
-                }, duration)
-            );
-        }
-        catch (e) {
-            console.log(e);
-        }
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
     }
-
-    */
+    return a;
 }
+
+export default Game;

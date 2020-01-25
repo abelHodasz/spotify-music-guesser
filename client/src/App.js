@@ -3,20 +3,17 @@ import "./App.css";
 import Settings from "./pages/layout/Settings";
 import Game from "./pages/layout/Game";
 import Navbar from "./pages/layout/Navbar.js";
-
-import { Provider } from "./context";
-
+import { UserProvider } from "./UserContext";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 class App extends Component {
     render() {
         return (
-            <Provider>
+            <UserProvider>
                 <Content />
-            </Provider>
+            </UserProvider>
         );
     }
-
 }
 
 function Content() {

@@ -1,29 +1,43 @@
-import React from "react";
-import Playlists from '../Playlists';
-import { Context } from "../../context";
-import Game from "./Game";
-import { BrowserRouter as Router,Link, Route, Switch } from "react-router-dom";
+import React, {Suspense, useState } from "react";
+import Playlists from "../Playlists";
 
-export default class Settings extends React.Component {
-    static contextType = Context;
-    state = {
-        selectedPlaylists: []
-    };
+import { Link } from "react-router-dom";
 
-    componentDidMount() {}
+const Settings = () => {
+    console.log("Render Settings");
+    const [playlists, setPlaylists] = useState([]);
 
-    render() {
-        return (
-            <Context.Consumer>
-                {(context) => (
-                    <React.Fragment>
-                        <p>Access Token : {context.state.accessToken}</p>
-                        <p>Number of playlists : {context.state.playlists.length}</p>
-                        <Link to="/game" >Start game</Link>
-                        <Playlists playlists = {context.state.playlists}/>
-                    </React.Fragment>
-                )}
-            </Context.Consumer>
-        );
+
+    const select = (playlist)=>{
+        let index = playlists.indexOf(playlist);
+        if(index !== -1){
+            setPlaylists(playlists.slice(0, index).concat(playlists.slice(-index)));
+        }else{
+            setPlaylists(playlists.concat(playlist));
+        }
     }
-}
+    
+
+    return (
+        <React.Fragment>
+            <div>
+                <Link
+                    to={{
+                        pathname: "/Game",
+                        state: playlists
+                    }}
+                >
+                    Start game
+                </Link>
+            </div>
+            <Suspense fallback={<div>Loading...</div>}>
+                <Playlists select={(playlist)=>select(playlist)} />
+            </Suspense>
+        </React.Fragment>
+    );
+};
+
+
+
+
+export default Settings;

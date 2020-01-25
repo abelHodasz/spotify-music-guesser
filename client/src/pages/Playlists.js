@@ -1,19 +1,59 @@
-import React, { Component } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Playlist from "./Playlist";
-import PropTypes from  "prop-types";
+import { UserContext } from "../UserContext";
+import Spotify from "spotify-web-api-js";
 
-export class Playlists extends Component {
-    render() {
-        return this.props.playlists.map(playlist => (
-            <div key={playlist.id} style = {{display:"inline-block"} }>
-            <Playlist key={playlist.id} playlist ={playlist} />
-            </div>
-        ));
+const Playlists = (props) => {
+    //getting spotify instance with accessToken from context
+    const [state, setState] = useContext(UserContext);
+
+    let spotify = new Spotify();
+    spotify.setAccessToken(state.accessToken);
+
+    //geting playlists
+
+    const [playlists, setPlaylists] = useState([]);
+    const [errorPlaylists, setErrorPlaylists] = useState(null);
+    const [loadingPlaylists, setLoadingPlaylists] = useState(true);
+
+    async function getPlaylistsAsync() {
+        try {
+            setLoadingPlaylists(true);
+            let offset = 0;
+            let allPlaylists = []
+            let newPlaylists = null;
+            do{
+                console.log(`Getting playlists from offset ${offset}`);
+                newPlaylists = await GetPlaylists(spotify, offset);
+                allPlaylists.push(...newPlaylists.items);
+                offset += 50;
+            }while(
+                newPlaylists.next != null
+            )
+            setPlaylists(allPlaylists)
+
+        } catch (e) {
+            setErrorPlaylists(e);
+        } finally {
+            setLoadingPlaylists(false);
+        }
     }
-}
 
-Playlists.propTypes = {
-    playlists : PropTypes.array.isRequired
-}
+    useEffect(() => {
+            getPlaylistsAsync();
+    }, []);
+
+    if (errorPlaylists) return `Failed to load playlists : ${errorPlaylists}`;
+
+    return playlists.map(playlist => (
+        <div key={playlist.id} style={{ display: "inline-block" }}>
+            <Playlist key={playlist.id} playlist={playlist} select={()=>props.select(playlist)}/>
+        </div>
+    ));
+};
+
+const GetPlaylists = (spotify, offset) => {
+    return spotify.getUserPlaylists({ limit: 50, offset: offset });
+};
 
 export default Playlists;
