@@ -1,13 +1,16 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useStyle } from "react";
 import Spotify from "spotify-web-api-js";
 import { UserContext } from "../../UserContext";
 import { Guessing } from "./Guessing";
 import Logger from "./Logger";
+import { Slider, Button, Container, Typography } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import { animated } from "animate.css";
 
 const Game = props => {
     const [currentSong, setCurrentSong] = useState(null);
     const [allSongs, setAllSongs] = useState([]);
-    const [positionMs, setPositionMs] = useState(15000);
+    const [position, setPosition] = useState(50);
     const [playlists, setPlaylists] = useState(props.location.state);
     const [pauseDurationMs, setPauseDurationMs] = useState(5000);
     const [state, setState] = useContext(UserContext);
@@ -31,20 +34,19 @@ const Game = props => {
         setAllSongs(songs);
     }
 
+    const handleSliderChange = (e, newValue) => {
+        setPosition(newValue);
+    };
+
     const GetNextSong = () => {
         if (allSongs.length == 0) {
             console.log("No more songs");
             return;
         }
-        const random = getRandomNumber(allSongs.length);
-        const song = allSongs[random];
+        const song = allSongs[0];
         let songCopy = JSON.parse(JSON.stringify(song));
         setCurrentSong(songCopy);
-        setAllSongs(
-            allSongs
-                .slice(0, random)
-                .concat(allSongs.slice(random + 1, allSongs.length))
-        );
+        setAllSongs(allSongs.slice(1, allSongs.length));
     };
 
     const getDevices = () => {
@@ -59,28 +61,39 @@ const Game = props => {
             })
             .catch(err => {
                 Logger(err, "Get Devices");
-                /*
-            if(JSON.parse(err.response).error.message === "The access token expired"){
-                window.location.href = "/";
-            }
-            */
+                isTokenExpired(err);
             });
+    };
+
+    const isTokenExpired = err => {
+        if (
+            JSON.parse(err.response).error.message ===
+            "The access token expired"
+        ) {
+            window.location.href = "/";
+        }
     };
 
     async function PlayCurrentSong() {
         if (currentSong == null || deviceId == null) return;
         setGuessing(true);
         setPlayingSong(true);
-        console.log(currentSong);
+        console.log(currentSong.track.name, currentSong.track);
         spotify
             .play({
-                "uris": [currentSong.track.uri],
-                "device_id": deviceId,
-                "position_ms": positionMs
+                uris: [currentSong.track.uri],
+                device_id: deviceId
+            })
+            .then(data => {
+                let positionMs = parseInt(
+                    (parseInt(currentSong.track.duration_ms) * position) / 100
+                );
+                spotify.seek(positionMs, {});
             })
             .catch(err => {
                 Logger(err, "Play Song");
                 setPlayingSong(false);
+                isTokenExpired(err);
             });
     }
 
@@ -91,7 +104,10 @@ const Game = props => {
             .pause({
                 device_id: deviceId
             })
-            .catch(err => Logger(err, "Pause Song"));
+            .catch(err => {
+                Logger(err, "Pause Song");
+                isTokenExpired(err);
+            });
     }
 
     useEffect(() => {
@@ -109,10 +125,23 @@ const Game = props => {
 
     if (deviceId == "No device") {
         return (
-            <div>
-                No active device found! Please open spotify and play a track!
-                <button onClick={getDevices}>Try again!</button>
-            </div>
+            <Container maxWidth="sm">
+                <Alert
+                    className="animated pulse alert-message"
+                    severity="error"
+                >
+                    No active device found! Please open spotify and play a
+                    track!
+                </Alert>
+                <Button
+                    className="try-again-button"
+                    onClick={getDevices}
+                    variant="contained"
+                    color="secondary"
+                >
+                    Try again!
+                </Button>
+            </Container>
         );
     }
     return (
@@ -128,15 +157,32 @@ const Game = props => {
             ) : playingSong ? (
                 <React.Fragment />
             ) : (
-                <button onClick={GetNextSong}>Play</button>
+                <Container maxWidth="sm">
+                    <Typography id="continuous-slider" gutterBottom>
+                        Song starting position
+                    </Typography>
+                    <Slider
+                        className="slider"
+                        value={position}
+                        onChange={handleSliderChange}
+                        aria-label="position"
+                        aria-labelledby="continuous-slider"
+                        valueLabelDisplay="auto"
+                        valueLabelFormat={x => x + "%"}
+                    />
+                    <Button
+                        className="playButton"
+                        variant="outlined"
+                        color="primary"
+                        onClick={GetNextSong}
+                    >
+                        Play
+                    </Button>
+                    </Container>
             )}
         </React.Fragment>
     );
 };
-
-function getRandomNumber(upperLimit) {
-    return Math.floor(Math.random() * upperLimit);
-}
 
 function shuffle(a) {
     var j, x, i;

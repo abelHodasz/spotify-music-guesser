@@ -2,8 +2,9 @@ import React, { useContext, useState, useEffect } from "react";
 import Playlist from "./Playlist";
 import { UserContext } from "../UserContext";
 import Spotify from "spotify-web-api-js";
+import { Alert } from "@material-ui/lab";
 
-const Playlists = (props) => {
+const Playlists = props => {
     //getting spotify instance with accessToken from context
     const [state, setState] = useContext(UserContext);
 
@@ -20,18 +21,15 @@ const Playlists = (props) => {
         try {
             setLoadingPlaylists(true);
             let offset = 0;
-            let allPlaylists = []
+            let allPlaylists = [];
             let newPlaylists = null;
-            do{
+            do {
                 console.log(`Getting playlists from offset ${offset}`);
                 newPlaylists = await GetPlaylists(spotify, offset);
                 allPlaylists.push(...newPlaylists.items);
                 offset += 50;
-            }while(
-                newPlaylists.next != null
-            )
-            setPlaylists(allPlaylists)
-
+            } while (newPlaylists.next != null);
+            setPlaylists(allPlaylists);
         } catch (e) {
             setErrorPlaylists(e);
         } finally {
@@ -40,14 +38,23 @@ const Playlists = (props) => {
     }
 
     useEffect(() => {
-            getPlaylistsAsync();
+        getPlaylistsAsync();
     }, []);
 
-    if (errorPlaylists) return `Failed to load playlists : ${errorPlaylists}`;
+    if (errorPlaylists)
+        return (
+            <Alert className="animated pulse alert-message" severity="error">
+                Failed to load playlists : {errorPlaylists}
+            </Alert>
+        );
 
     return playlists.map(playlist => (
         <div key={playlist.id} style={{ display: "inline-block" }}>
-            <Playlist key={playlist.id} playlist={playlist} select={()=>props.select(playlist)}/>
+            <Playlist
+                key={playlist.id}
+                playlist={playlist}
+                select={() => props.select(playlist)}
+            />
         </div>
     ));
 };

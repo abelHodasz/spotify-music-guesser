@@ -39,5 +39,54 @@ p {
 }
 
 .page-container{
+    max-width: 1200px;
+    margin: auto;
     text-align:center;
 }
+
+.slider, .alert-message{
+    margin: 20px 0;
+}
+
+.letter{
+    width: 55px;
+    height: 55px;
+}
+
+.letter-container{
+    text-transform: capitalize;
+    font-weight: 500;
+    font-size: 50px;
+    margin: 2px;
+    text-align: center;
+}
+
+.space-letter{
+    margin-left: 55px;
+}
+
+.other-letter{
+    font-size: 50px;
+    text-align: center;
+}
+
+a, button{
+    text-decoration: none;
+    color: white;
+}
+
+#continuous-slider{
+    margin-top: 20px;;
+    text-align: left;
+}
+
+.regular-button{
+    margin-top: 30px;
+    color: white;
+}
+
+.start-game-container{
+    line-height: 100px;
+    height: 80px;
+}
+
