@@ -16,7 +16,7 @@ const Word = props => {
     const [name, setName] = useState(formatName(props.name));
 
     const [nameLetters, setNameLetters] = useState(
-        name.split("").filter(char => Util.isLetter(char))
+        name.split("").filter(char => Util.isLetter(char)).map(char=>char.toLowerCase())
     );
 
     const [guessedName, setGuessedName] = useState([]);
@@ -27,6 +27,12 @@ const Word = props => {
         guessedNameCopy[index] = letter;
         setGuessedName(guessedNameCopy);
     };
+
+
+    useEffect(()=>{
+        if (Util.equalArrays(guessedName, nameLetters))
+            console.log("CORRECT");
+    },[guessedName])
 
     const changeEvent = (e)=>{
         console.log(e);
