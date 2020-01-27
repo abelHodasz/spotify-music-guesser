@@ -6,66 +6,67 @@ const Letter = props => {
     const [char, setChar] = useState("");
 
     const changeChar = e => {
-        const newChar = e.target.value;
+        props.setGuessStatus("guessing");
+        let newChar = e.target.value;
         if (Util.isLetter(newChar)) {
-            setChar(newChar.toUpperCase());
-            let nextLetter = findNextLetter(e.target)
-            if (nextLetter)nextLetter.focus();
+            newChar = newChar.toUpperCase();
+            setChar(newChar);
+            let nextLetter = findNextLetter(e.target);
+            if (nextLetter) nextLetter.focus();
+            else props.setGuessStatus("incorrect");
         } else {
             setChar("");
         }
         props.setLetter(newChar, props.index);
     };
 
-
     const deleteChar = e => {
-        if (e.keyCode === 8){
+        props.setGuessStatus("guessing");
+        if (e.keyCode === 8) {
+            e.target.value = "";
+            props.setLetter("");
             let previousLetter = findPreviousLetter(e.target);
-            if (previousLetter){
-                props.setLetter("");
-                e.target.value = "";
+            if (previousLetter) {
                 previousLetter.focus();
             }
         }
-    }
+    };
 
     const focusChar = e => {
         setChar("");
         props.setLetter("", props.index);
-    }
+    };
 
     return (
-        <TextField
-            autoFocus={props.index === 0? true: false}
-            className="letter"
-            variant="outlined"
-            size="medium"
-            inputProps={{ maxLength: 1, value: char }}
-            onChange={changeChar}
-            onKeyUp={deleteChar}
-            onFocus={focusChar}
-        />
+            <TextField
+                className="letter"
+                autoFocus={props.index === 0 ? true : false}
+                variant="outlined"
+                size="medium"
+                inputProps={{ maxLength: 1, value: char }}
+                onChange={changeChar}
+                onKeyUp={deleteChar}
+                onFocus={focusChar}
+            />
     );
 };
 
+function findNextLetter(element) {
+    var sibling = element.parentElement.parentElement.parentElement.nextSibling;
 
-function findNextLetter(element){
-    var sibling =  element.parentElement.parentElement.nextSibling;
-
-	while (sibling) {
-		if (sibling.matches(".letter")) return sibling.children[0].children[0];
-		sibling = sibling.nextElementSibling
-	}
+    while (sibling) {
+        if (sibling.matches(".letter-container")) return sibling.children[0].children[0].children[0];
+        sibling = sibling.nextElementSibling;
+    }
 }
 
-function findPreviousLetter(element){
-    var sibling =  element.parentElement.parentElement.previousSibling;
+function findPreviousLetter(element) {
+    var sibling = element.parentElement.parentElement.parentElement.previousSibling;
 
-	while (sibling) {
-		if (sibling.matches(".letter")) return sibling.children[0].children[0];
-		sibling = sibling.previousElementSibling
-	}
+    while (sibling) {
+        if (sibling.matches(".letter-container")) return sibling.children[0].children[0].children[0];
+        sibling = sibling.previousElementSibling;
+    }
 }
-
 
 export default Letter;

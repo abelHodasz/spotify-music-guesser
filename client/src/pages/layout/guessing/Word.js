@@ -16,11 +16,13 @@ const Word = props => {
     const name = useState(formatName(props.name))[0];
 
     const nameLetters = useState(
-        name.split("").filter(char => Util.isLetter(char)).map(char=>char.toLowerCase())
+        name
+            .split("")
+            .filter(char => Util.isLetter(char))
+            .map(char => char.toUpperCase())
     )[0];
 
     const [guessedName, setGuessedName] = useState([]);
-
 
     const setGuessedNameLetter = (letter, index) => {
         let guessedNameCopy = [...guessedName];
@@ -28,15 +30,10 @@ const Word = props => {
         setGuessedName(guessedNameCopy);
     };
 
-
-    useEffect(()=>{
+    useEffect(() => {
         if (Util.equalArrays(guessedName, nameLetters))
-            console.log("CORRECT");
-    },[guessedName, nameLetters])
-
-    const changeEvent = (e)=>{
-        console.log(e);
-    }
+            props.setGuessStatus("correct");
+    }, [guessedName, nameLetters]);
 
     let wordElement = [];
     let nameArray = name.split("");
@@ -45,25 +42,26 @@ const Word = props => {
         let char = nameArray[i];
         if (Util.isLetter(char)) {
             wordElement.push(
-                <Letter
-                    className = "letter"
-                    onChange={changeEvent}
-                    key={i}
-                    index={letterIndex}
-                    char={char}
-                    setLetter={setGuessedNameLetter}
-                />
+                <span className="letter-container">
+                    <Letter
+                        className="letter "
+                        key={i}
+                        index={letterIndex}
+                        char={char}
+                        setLetter={setGuessedNameLetter}
+                        setGuessStatus={props.setGuessStatus}
+                    />
+                </span>
             );
             letterIndex++;
         } else {
             wordElement.push(
-                <Box key={i} component="span">
+                <Box key={i} component={char == " " ? "div" : "span"}>
                     {char}
                 </Box>
             );
         }
     }
-
 
     return wordElement;
 };

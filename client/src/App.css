@@ -57,7 +57,7 @@ p {
     text-transform: capitalize;
     font-weight: 500;
     font-size: 50px;
-    margin: 2px;
+    margin: 6px 2px;
     text-align: center;
 }
 
@@ -90,3 +90,6 @@ a, button{
     height: 80px;
 }
 
+.words-container{
+    padding-top: 40px;
+}
