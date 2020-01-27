@@ -54,11 +54,7 @@ export class Playlist extends Component {
                     this.props.select();
                     this.setState({ selected: !this.state.selected });
                 }}
-                style={this.getStyle()}
-            >
-                <Tooltip title="Add" aria-label="select">
-                        <AddCircleIcon />
-                </Tooltip>
+                style={this.getStyle()}>
                 <h2>{this.props.playlist.name}</h2>
                 {playlistImage}
                 <p className="block-with-text">{description}</p>
@@ -66,6 +62,12 @@ export class Playlist extends Component {
         );
     }
 }
+
+/*
+<Tooltip title="Add" aria-label="select">
+        <AddCircleIcon />
+</Tooltip>
+*/
 
 Playlist.propTypes = {
     playlist: PropTypes.object.isRequired

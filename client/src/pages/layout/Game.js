@@ -130,8 +130,7 @@ const Game = props => {
                     className="animated pulse alert-message"
                     severity="error"
                 >
-                    No active device found! Please open spotify and play a
-                    track!
+                    Please open spotify and try again!
                 </Alert>
                 <Button
                     className="try-again-button"
