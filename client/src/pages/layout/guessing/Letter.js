@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { TextField } from "@material-ui/core";
 import Util from "../../../util/Util";
 
@@ -19,7 +19,7 @@ const Letter = props => {
 
 
     const deleteChar = e => {
-        if (e.keyCode == 8){
+        if (e.keyCode === 8){
             let previousLetter = findPreviousLetter(e.target);
             if (previousLetter){
                 props.setLetter("");
@@ -36,7 +36,7 @@ const Letter = props => {
 
     return (
         <TextField
-            autoFocus={props.index == 0? true: false}
+            autoFocus={props.index === 0? true: false}
             className="letter"
             variant="outlined"
             size="medium"

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useStyle } from "react";
+import React, { useState, useEffect } from "react";
 import Letter from "./Letter";
 import { Box } from "@material-ui/core";
 import Util from "../../../util/Util";
@@ -13,11 +13,11 @@ const Word = props => {
         return newName;
     };
 
-    const [name, setName] = useState(formatName(props.name));
+    const name = useState(formatName(props.name))[0];
 
-    const [nameLetters, setNameLetters] = useState(
+    const nameLetters = useState(
         name.split("").filter(char => Util.isLetter(char)).map(char=>char.toLowerCase())
-    );
+    )[0];
 
     const [guessedName, setGuessedName] = useState([]);
 
@@ -32,7 +32,7 @@ const Word = props => {
     useEffect(()=>{
         if (Util.equalArrays(guessedName, nameLetters))
             console.log("CORRECT");
-    },[guessedName])
+    },[guessedName, nameLetters])
 
     const changeEvent = (e)=>{
         console.log(e);

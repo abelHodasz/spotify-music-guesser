@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useStyle } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Spotify from "spotify-web-api-js";
 import { UserContext } from "../../UserContext";
 import { Guessing } from "./Guessing";
@@ -11,9 +11,9 @@ const Game = props => {
     const [currentSong, setCurrentSong] = useState(null);
     const [allSongs, setAllSongs] = useState([]);
     const [position, setPosition] = useState(50);
-    const [playlists, setPlaylists] = useState(props.location.state);
-    const [pauseDurationMs, setPauseDurationMs] = useState(5000);
-    const [state, setState] = useContext(UserContext);
+    const playlists = useState(props.location.state)[0];
+    const pauseDurationMs = useState(5000)[0];
+    const state = useContext(UserContext)[0];
     const [deviceId, setDeviceId] = useState(null);
     const [playingSong, setPlayingSong] = useState(false);
     const [guessing, setGuessing] = useState(false);
@@ -39,7 +39,7 @@ const Game = props => {
     };
 
     const GetNextSong = () => {
-        if (allSongs.length == 0) {
+        if (allSongs.length === 0) {
             console.log("No more songs");
             return;
         }
@@ -55,7 +55,7 @@ const Game = props => {
             .getMyDevices()
             .then(data => {
                 console.log(data.devices);
-                if (data.devices.length == 0) {
+                if (data.devices.length === 0) {
                     setDeviceId("No device");
                 } else setDeviceId(data.devices[0].id);
             })
@@ -123,7 +123,7 @@ const Game = props => {
         setTimeout(PauseCurrentSong, pauseDurationMs);
     }, [currentSong]);
 
-    if (deviceId == "No device") {
+    if (deviceId === "No device") {
         return (
             <Container maxWidth="sm">
                 <Alert

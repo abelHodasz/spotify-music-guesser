@@ -6,7 +6,7 @@ import { Alert } from "@material-ui/lab";
 
 const Playlists = props => {
     //getting spotify instance with accessToken from context
-    const [state, setState] = useContext(UserContext);
+    const state = useContext(UserContext)[0];
 
     let spotify = new Spotify();
     spotify.setAccessToken(state.accessToken);
@@ -46,7 +46,7 @@ const Playlists = props => {
             <Alert className="animated pulse alert-message" severity="error">
                 Failed to load playlists : {errorPlaylists}
             </Alert>
-        );
+    );
 
     return playlists.map(playlist => (
         <div key={playlist.id} style={{ display: "inline-block" }}>

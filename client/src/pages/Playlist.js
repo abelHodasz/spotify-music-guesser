@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Box, Tooltip, Fab } from "@material-ui/core";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+import { Box } from "@material-ui/core";
 
 export class Playlist extends Component {
     state = {

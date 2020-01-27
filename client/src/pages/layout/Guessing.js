@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Container, Button, TextField, Box } from "@material-ui/core";
-import regex from "xregexp";
+import React from "react";
+import { Container } from "@material-ui/core";
 import Word from "./guessing/Word"
 
 export function Guessing(props) {
@@ -12,4 +11,3 @@ export function Guessing(props) {
         </Container>
     );
 }
-
