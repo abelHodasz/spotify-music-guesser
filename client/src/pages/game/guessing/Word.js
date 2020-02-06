@@ -4,7 +4,9 @@ import { Box } from "@material-ui/core";
 import Util from "../../../util/Util";
 
 const Word = props => {
-    console.log("Render Word");
+    const [guessStatus, setGuessStatus] = props.guess;
+    const [letterHintIndexes, setLetterHintIndexes] = useState([]);
+
     const formatName = name => {
         let newName = name.split(" - ")[0];
         const regex = /\(.*?\)/g;
@@ -29,10 +31,25 @@ const Word = props => {
         guessedNameCopy[index] = letter;
         setGuessedName(guessedNameCopy);
     };
+    
+    useEffect(()=>{
+        console.log("Show letter", props.numberOfLettersShown);
+        if(props.numberOfLettersShown > 0){
+            let letterIndexesCopy = [...letterHintIndexes]
+            let randomIndex
+            do{
+                randomIndex = Util.getRandomInt(nameLetters.length)
+            }while(letterIndexesCopy.includes(randomIndex))
+            letterIndexesCopy.push(randomIndex)
+            setLetterHintIndexes(letterIndexesCopy)
+        }else {
+
+        }
+    },[props.numberOfLettersShown])
 
     useEffect(() => {
         if (Util.equalArrays(guessedName, nameLetters))
-            props.setGuessStatus("correct");
+            setGuessStatus("correct");
     }, [guessedName, nameLetters]);
 
     let wordElement = [];
@@ -42,21 +59,21 @@ const Word = props => {
         let char = nameArray[i];
         if (Util.isLetter(char)) {
             wordElement.push(
-                <span className="letter-container">
+                <span key={i} className="letter-container">
                     <Letter
                         className="letter "
-                        key={i}
                         index={letterIndex}
                         char={char}
                         setLetter={setGuessedNameLetter}
-                        setGuessStatus={props.setGuessStatus}
+                        guess={props.guess}
+                        prefilled={letterHintIndexes.includes(letterIndex)}
                     />
                 </span>
             );
             letterIndex++;
         } else {
             wordElement.push(
-                <Box key={i} component={char == " " ? "div" : "span"}>
+                <Box key={i} className="char-container" component={char == " " ? "div" : "span"}>
                     {char}
                 </Box>
             );

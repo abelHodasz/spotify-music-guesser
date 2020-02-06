@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
-import Settings from "./pages/layout/Settings";
-import Game from "./pages/layout/Game";
+import Settings from "./pages/settings/Settings";
+import Game from "./pages/game/Game";
 import Navbar from "./pages/layout/Navbar.js";
 import { UserProvider } from "./UserContext";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";

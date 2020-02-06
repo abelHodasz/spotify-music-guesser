@@ -24,4 +24,9 @@ export default class Util {
         }
         return true;
     }
+
+
+    static getRandomInt(upperLimit){
+        return Math.floor(Math.random() * upperLimit)
+    }
 }

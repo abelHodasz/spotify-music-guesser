@@ -10,15 +10,10 @@ const Navbar = () => {
         whiteSpace: "nowrap"
     }
 
-    const appNameStyle = {
-        fontSize: "36px",
-        margin: "5px 0px",
-        padding: "40px 40px"
-    }
 
     return (
         <nav style = {navbarStyle} className="navbar">
-            <span style = {appNameStyle} className="navbar-name">Spotify music guesser</span>
+            <h1>Spotify music guesser</h1>
         </nav>
     )
 }
