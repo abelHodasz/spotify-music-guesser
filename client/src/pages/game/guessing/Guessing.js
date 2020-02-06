@@ -123,7 +123,10 @@ export function Guessing(props) {
                     {
                         name: "Remaining time",
                         value: time
-                    }                       
+                    },{
+                        name: "Number of characters",
+                        value: props.name.length
+                    }                    
                 ]);
         }
     };

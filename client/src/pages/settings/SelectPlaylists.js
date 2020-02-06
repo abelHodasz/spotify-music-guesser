@@ -31,6 +31,12 @@ export default function SelectPlaylists(props) {
             <Playlists select={playlist => select(playlist)} />
         </Suspense>
     );
+
+    const ourPlaylists = (
+        <Suspense fallback={<div>Loading...</div>}>
+            <Playlists select={playlist => select(playlist)} playlistIds={["6rPJEvKov30LC3QvhmudPS?si=VDXZWUKeRPGa8W0G8bjaLg"]}/>
+        </Suspense>
+    );
     const selectOptions = (
         <Fragment>
             <h2>Choose what music do you want to hear!</h2>
@@ -51,6 +57,7 @@ export default function SelectPlaylists(props) {
                     tooltip="Play a game with a playlist we prepared. Contains classic songs that everybody knows!"
                     variant="outlined"
                     color="secondary"
+                    onClick={() => setOption(options.OURPLAYLISTS)}
                 >
                     Our Playlists
                 </TooltipButton>
@@ -65,7 +72,7 @@ export default function SelectPlaylists(props) {
         case options.YOURPLAYLISTS:
             return <Container>{ownPlaylists}</Container>;
         case options.OURPLAYLISTS:
-            return <Container>Click Next to continue</Container>;
+            return <Container>{ourPlaylists}</Container>;
         default:
             return <Container></Container>;
     }

@@ -13,7 +13,7 @@ export default function GameOver(props) {
             <Button color="primary" variant="outlined">With same playlists</Button>
             </div>
             <div style={{margin: "20px"}}>
-            <Button  color="secondary" variant="outlined">With new playlists</Button>
+            <Button href="/settings" color="secondary" variant="outlined">With new playlists</Button>
             </div >
         </Container>
     );

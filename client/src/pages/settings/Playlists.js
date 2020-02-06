@@ -59,7 +59,13 @@ const Playlists = props => {
             let offset = 0;
             let allPlaylists = [];
             let newPlaylists = null;
-            do {
+            if(props.playlistIds){
+                for(let id of props.playlistIds){
+                    newPlaylists = await GetPlaylist(spotify, id, state.accessToken);
+                    console.log(newPlaylists);
+                    allPlaylists.push(newPlaylists)
+                }
+            }else do {
                 console.log(`Getting playlists from offset ${offset}`);
                 newPlaylists = await GetPlaylists(spotify, offset);
                 allPlaylists.push(...newPlaylists.items);
@@ -169,5 +175,18 @@ const Playlists = props => {
 const GetPlaylists = (spotify, offset) => {
     return spotify.getUserPlaylists({ limit: 50, offset: offset });
 };
+
+async function GetPlaylist(spotify, playlistId, accessToken){
+    const url = "https://api.spotify.com/v1/playlists/" + playlistId
+    const type = "GET";
+    const response = await fetch(url, {
+        method: type,
+        mode: 'cors',
+        headers: {
+            "Authorization": "Bearer " + accessToken
+        }
+    });
+    return await response.json();
+}
 
 export default Playlists;

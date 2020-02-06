@@ -38,7 +38,7 @@ export default function GameSettings(props) {
     ]
 
     return (
-        <Container >
+        <Container style={{width:"50vw"}}>
             <Typography id="continuous-slider" gutterBottom>
                 Playback duration
             </Typography>
@@ -50,7 +50,7 @@ export default function GameSettings(props) {
                 onChange={(e, newValue)=>setDuration(newValue*1000)}
                 aria-label="Duration"
                 aria-labelledby="continuous-slider"
-                valueLabelDisplay="auto"
+                valueLabelDisplay="on"
                 valueLabelFormat={x => x + " s"}
                 marks={durationMarks}
             />
@@ -65,7 +65,7 @@ export default function GameSettings(props) {
                 onChange={(e, newValue)=>setRounds(newValue)}
                 aria-label="rounds"
                 aria-labelledby="continuous-slider"
-                valueLabelDisplay="auto"
+                valueLabelDisplay="on"
                 marks={roundsMarks}
             />
             <Typography id="continuous-slider" gutterBottom>
@@ -79,7 +79,7 @@ export default function GameSettings(props) {
                 onChange={(e, newValue)=>setRoundLength(newValue)}
                 aria-label="roundLength"
                 aria-labelledby="continuous-slider"
-                valueLabelDisplay="auto"
+                valueLabelDisplay="on"
                 marks={roundLengthMarks}
             />
         </Container>

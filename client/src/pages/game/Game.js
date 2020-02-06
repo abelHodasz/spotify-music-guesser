@@ -52,7 +52,6 @@ const Game = props => {
 
     const replayCurrentSong = () => {
         PlayCurrentSong();
-        setTimeout(PauseCurrentSong, pauseDurationMs);
     };
 
     const continueCurrentSong = () => {
@@ -63,7 +62,6 @@ const Game = props => {
             setPlayingSong(false);
             isTokenExpired(err);
         });
-
         setTimeout(PauseCurrentSong, pauseDurationMs);
     };
 
@@ -113,13 +111,14 @@ const Game = props => {
             "The access token expired"
         ) {
             window.location.href = "/";
+        }else if(JSON.parse(err.response).error.message === "Device not found"){
+            getDevices();
         }
     };
 
     async function PlayCurrentSong() {
         if (currentSong == null || deviceId == null) return;
         console.log("Playing song");
-        setGuessing(true);
         setPlayingSong(true);
         console.log(currentSong.track.name, currentSong.track);
         spotify
@@ -131,12 +130,20 @@ const Game = props => {
                 let positionMs = parseInt(
                     (parseInt(currentSong.track.duration_ms) * position) / 100
                 );
-                spotify.seek(positionMs, {});
+                spotify.seek(positionMs, {})
+                .then(()=>{
+                    setGuessing(true)
+                    setTimeout(PauseCurrentSong, pauseDurationMs);
+                })
+                .catch(()=>
+                    GetNextSong()
+                )
             })
             .catch(err => {
                 Logger(err, "Play Song");
                 setPlayingSong(false);
                 isTokenExpired(err);
+                
             });
     }
 
@@ -150,7 +157,6 @@ const Game = props => {
             .catch(err => {
                 Logger(err, "Pause Song");
                 isTokenExpired(err);
-                GetNextSong();
             });
     }
 
@@ -175,7 +181,7 @@ const Game = props => {
 
     useEffect(() => {
         PlayCurrentSong();
-        setTimeout(PauseCurrentSong, pauseDurationMs);
+        
     }, [currentSong]);
 
     const showArtist = () => {
@@ -271,10 +277,9 @@ const Game = props => {
                         {hint}
                     </Fragment>
                 ) : playingSong ? (
-                    <CustomAlert
-                        message="Wow, you are fast, let's wait for the playback to end!"
-                        severity="info"
-                    ></CustomAlert>
+                    <Container
+                    style={{marginTop: "50px"}}
+                    >Loading...</Container>
                 ) : (
                     <Container maxWidth="sm">
                         <h2>Round {roundNumber}</h2>
