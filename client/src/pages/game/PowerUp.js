@@ -46,11 +46,20 @@ export default function PowerUp(props) {
         }
     }))(Button);
 
-
     return (
         <div className="power-up-button-container">
-            <FancyButton disableElevation variant="contained" onClick = {props.active && !props.playingSong?props.handlePowerUp:()=>{}} disabled={props.pu.amount==0}>
-                {icon}<span style={{marginLeft:"2px"}}>{props.pu.name}</span>
+            <FancyButton
+                disableElevation
+                variant="contained"
+                onClick={
+                    props.active && !props.playingSong
+                        ? props.handlePowerUp
+                        : () => {}
+                }
+                disabled={props.pu.amount == 0}
+            >
+                {icon}
+                <span style={{ marginLeft: "2px" }}>{props.pu.name}</span>
             </FancyButton>
             <p>x {props.pu.amount}</p>
         </div>

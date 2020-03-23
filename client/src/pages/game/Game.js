@@ -27,7 +27,10 @@ const Game = props => {
         powerUps
     } = props.location.state;
     const [team1Current, setTeam1Current] = useState(false);
-    const [currentWinner, setCurrentWinner] = useState({name: teams[0],score: 0})
+    const [currentWinner, setCurrentWinner] = useState({
+        name: teams[0],
+        score: 0
+    });
     const pauseDurationMs = props.location.state.duration;
 
     const [currentSong, setCurrentSong] = useState(null);
@@ -111,7 +114,9 @@ const Game = props => {
             "The access token expired"
         ) {
             window.location.href = "/";
-        }else if(JSON.parse(err.response).error.message === "Device not found"){
+        } else if (
+            JSON.parse(err.response).error.message === "Device not found"
+        ) {
             getDevices();
         }
     };
@@ -130,20 +135,18 @@ const Game = props => {
                 let positionMs = parseInt(
                     (parseInt(currentSong.track.duration_ms) * position) / 100
                 );
-                spotify.seek(positionMs, {})
-                .then(()=>{
-                    setGuessing(true)
-                    setTimeout(PauseCurrentSong, pauseDurationMs);
-                })
-                .catch(()=>
-                    GetNextSong()
-                )
+                spotify
+                    .seek(positionMs, {})
+                    .then(() => {
+                        setGuessing(true);
+                        setTimeout(PauseCurrentSong, pauseDurationMs);
+                    })
+                    .catch(() => GetNextSong());
             })
             .catch(err => {
                 Logger(err, "Play Song");
                 setPlayingSong(false);
                 isTokenExpired(err);
-                
             });
     }
 
@@ -170,7 +173,7 @@ const Game = props => {
 
     useEffect(() => {
         if (!guessing) {
-            setNumberOfLettersShown(0)
+            setNumberOfLettersShown(0);
             if (!team1Current) {
                 setRoundNumber(roundNumber + 1);
             }
@@ -181,7 +184,6 @@ const Game = props => {
 
     useEffect(() => {
         PlayCurrentSong();
-        
     }, [currentSong]);
 
     const showArtist = () => {
@@ -218,13 +220,15 @@ const Game = props => {
         replay: replayCurrentSong,
         showArtist: showArtist,
         showAlbum: showAlbum,
-        showLetter: ()=>{setNumberOfLettersShown(numberOfLettersShown + 1)},
+        showLetter: () => {
+            setNumberOfLettersShown(numberOfLettersShown + 1);
+        },
         showAlbumCover: showAlbumCover,
         continue: continueCurrentSong
     };
 
-    if(roundNumber == rounds +1){
-        return <GameOver winner={currentWinner}></GameOver>
+    if (roundNumber == rounds + 1) {
+        return <GameOver winner={currentWinner}></GameOver>;
     }
 
     if (deviceId === "No device") {
@@ -277,9 +281,9 @@ const Game = props => {
                         {hint}
                     </Fragment>
                 ) : playingSong ? (
-                    <Container
-                    style={{marginTop: "50px"}}
-                    >Loading...</Container>
+                    <Container style={{ marginTop: "50px" }}>
+                        Loading...
+                    </Container>
                 ) : (
                     <Container maxWidth="sm">
                         <h2>Round {roundNumber}</h2>

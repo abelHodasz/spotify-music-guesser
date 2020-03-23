@@ -100,6 +100,7 @@ export default function Settings() {
                         duration={[duration, setDuration]}
                         rounds={[rounds, setRounds]}
                         roundLength={[roundLength, setRoundLength]}
+                        powerUps = {[powerUps, setPowerUps]}
                     />
                 );
             default:

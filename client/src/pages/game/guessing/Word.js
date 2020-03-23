@@ -31,21 +31,20 @@ const Word = props => {
         guessedNameCopy[index] = letter;
         setGuessedName(guessedNameCopy);
     };
-    
-    useEffect(()=>{
-        console.log("Show letter", props.numberOfLettersShown);
-        if(props.numberOfLettersShown > 0){
-            let letterIndexesCopy = [...letterHintIndexes]
-            let randomIndex
-            do{
-                randomIndex = Util.getRandomInt(nameLetters.length)
-            }while(letterIndexesCopy.includes(randomIndex))
-            letterIndexesCopy.push(randomIndex)
-            setLetterHintIndexes(letterIndexesCopy)
-        }else {
 
+    useEffect(() => {
+        console.log("Show letter", props.numberOfLettersShown);
+        if (props.numberOfLettersShown > 0) {
+            let letterIndexesCopy = [...letterHintIndexes];
+            let randomIndex;
+            do {
+                randomIndex = Util.getRandomInt(nameLetters.length);
+            } while (letterIndexesCopy.includes(randomIndex));
+            letterIndexesCopy.push(randomIndex);
+            setLetterHintIndexes(letterIndexesCopy);
+        } else {
         }
-    },[props.numberOfLettersShown])
+    }, [props.numberOfLettersShown]);
 
     useEffect(() => {
         if (Util.equalArrays(guessedName, nameLetters))
@@ -73,7 +72,11 @@ const Word = props => {
             letterIndex++;
         } else {
             wordElement.push(
-                <Box key={i} className="char-container" component={char == " " ? "div" : "span"}>
+                <Box
+                    key={i}
+                    className="char-container"
+                    component={char == " " ? "div" : "span"}
+                >
                     {char}
                 </Box>
             );

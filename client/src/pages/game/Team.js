@@ -62,14 +62,11 @@ export default function Team(props) {
             setAddPoints(
                 <StyleRoot>
                     <h3>
-                        +{pointValue}{" "}{pointName}
+                        +{pointValue} {pointName}
                     </h3>
                 </StyleRoot>
             );
-            setTimeout(
-                () => setPoints(newPoint),
-                1000
-            );
+            setTimeout(() => setPoints(newPoint), 1000);
         }
     }, [newPoints]);
 
@@ -82,21 +79,17 @@ export default function Team(props) {
                 setAddPoints(
                     <StyleRoot>
                         <h3>
-                            +{pointValue}{" "}
-                            {pointName}
+                            +{pointValue} {pointName}
                         </h3>
                     </StyleRoot>
                 );
                 setNewPointsIndex(newPointsIndex + 1);
-                setTimeout(
-                    () => setPoints(newPoint),
-                    1001
-                );
+                setTimeout(() => setPoints(newPoint), 1001);
             } else {
-                if(props.winner[0].score < points){
-                    props.winner[1]({name:props.teamName, score:points})
-                }else if (props.winner[0].score == points){
-                    props.winner[1]({name:"both teams", score:points})
+                if (props.winner[0].score < points) {
+                    props.winner[1]({ name: props.teamName, score: points });
+                } else if (props.winner[0].score == points) {
+                    props.winner[1]({ name: "both teams", score: points });
                 }
                 setNewPointsIndex(1);
                 props.setGuessing(false);

@@ -49,18 +49,18 @@ const Letter = props => {
 
     return (
         <Fragment>
-        <TextField
-            disabled={isDisabled}
-            className="letter"
-            autoFocus={props.index === 0 ? true : false}
-            variant="outlined"
-            size="medium"
-            inputProps={{ maxLength: 1, value:char }}
-            onChange={changeChar}
-            onKeyUp={deleteChar}
-            onFocus={focusChar}
-            label={props.prefilled?props.char.toUpperCase():" "}
-        />
+            <TextField
+                disabled={isDisabled}
+                className="letter"
+                autoFocus={props.index === 0 ? true : false}
+                variant="outlined"
+                size="medium"
+                inputProps={{ maxLength: 1, value: char }}
+                onChange={changeChar}
+                onKeyUp={deleteChar}
+                onFocus={focusChar}
+                label={props.prefilled ? props.char.toUpperCase() : " "}
+            />
         </Fragment>
     );
 };

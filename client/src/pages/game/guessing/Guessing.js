@@ -17,7 +17,7 @@ export function Guessing(props) {
     const [team1Current, setTeam1Current] = props.currentTeam;
     const [guessStatus, setGuessStatus] = useState("guessing");
     const [animation, setAnimation] = useState({});
-    const [time, setTime] = useState(props.roundLength)
+    const [time, setTime] = useState(props.roundLength);
     const [statusAlert, setStatusAlert] = useState(
         <CustomAlert
             message="Start guessing!"
@@ -115,19 +115,20 @@ export function Guessing(props) {
         } else if (e.target.style.animationName.includes("shake")) {
             setAnimation({});
         } else if (e.target.style.animationName.includes("bounce")) {
-                props.setPoints([
-                    {
-                        name: "Guessed song",
-                        value: 100
-                    },
-                    {
-                        name: "Remaining time",
-                        value: time
-                    },{
-                        name: "Number of characters",
-                        value: props.name.length
-                    }                    
-                ]);
+            props.setPoints([
+                {
+                    name: "Guessed song",
+                    value: 100
+                },
+                {
+                    name: "Remaining time",
+                    value: time
+                },
+                {
+                    name: "Number of characters",
+                    value: props.name.length
+                }
+            ]);
         }
     };
 

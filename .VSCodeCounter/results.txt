@@ -1,0 +1,60 @@
+Date : 2020-02-24 09:25:09
+Directory : d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src
+Total : 27 files,  1892 codes, 46 comments, 222 blanks, all 2160 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JavaScript |         26 |      1,772 |         45 |        196 |      2,013 |
+| CSS        |          1 |        120 |          1 |         26 |        147 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                     | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                        |         27 |      1,892 |         46 |        222 |      2,160 |
+| pages                                                                                                    |         19 |      1,563 |          3 |        152 |      1,718 |
+| pages\game                                                                                               |          8 |        856 |          0 |         80 |        936 |
+| pages\game\guessing                                                                                      |          3 |        317 |          0 |         33 |        350 |
+| pages\guessing                                                                                           |          1 |         86 |          0 |          9 |         95 |
+| pages\layout                                                                                             |          1 |         15 |          0 |          6 |         21 |
+| pages\settings                                                                                           |          5 |        544 |          3 |         44 |        591 |
+| pages\util                                                                                               |          4 |         62 |          0 |         13 |         75 |
+| util                                                                                                     |          1 |         22 |          4 |          7 |         33 |
++----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                 | language   | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\App.css                           | CSS        |        120 |          1 |         26 |        147 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\App.js                            | JavaScript |         40 |          0 |          4 |         44 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\App.test.js                       | JavaScript |          8 |          0 |          2 |         10 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\UserContext.js                    | JavaScript |         36 |          0 |         12 |         48 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\index.js                          | JavaScript |          8 |          3 |          5 |         16 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\game\Game.js                | JavaScript |        314 |          0 |         30 |        344 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\game\GameOver.js            | JavaScript |         25 |          0 |          2 |         27 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\game\PositionSlider.js      | JavaScript |         24 |          0 |          3 |         27 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\game\PowerUp.js             | JavaScript |         63 |          0 |          5 |         68 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\game\Team.js                | JavaScript |        113 |          0 |          7 |        120 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\game\guessing\Guessing.js   | JavaScript |        161 |          0 |          9 |        170 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\game\guessing\Letter.js     | JavaScript |         78 |          0 |         12 |         90 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\game\guessing\Word.js       | JavaScript |         78 |          0 |         12 |         90 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\guessing\Guessing.js        | JavaScript |         86 |          0 |          9 |         95 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\layout\Navbar.js            | JavaScript |         15 |          0 |          6 |         21 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\settings\GameSettings.js    | JavaScript |         85 |          0 |          4 |         89 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\settings\Playlists.js       | JavaScript |        181 |          3 |         17 |        201 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\settings\SelectPlaylists.js | JavaScript |         73 |          0 |          8 |         81 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\settings\SelectTeams.js     | JavaScript |         22 |          0 |          5 |         27 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\settings\Settings.js        | JavaScript |        183 |          0 |         10 |        193 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\util\Countdown.js           | JavaScript |         17 |          0 |          5 |         22 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\util\CustomAlert.js         | JavaScript |         24 |          0 |          2 |         26 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\util\Logger.js              | JavaScript |          8 |          0 |          4 |         12 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\pages\util\TooltipButton.js       | JavaScript |         13 |          0 |          2 |         15 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\serviceWorker.js                  | JavaScript |         94 |         31 |         13 |        138 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\setupTests.js                     | JavaScript |          1 |          4 |          1 |          6 |
+| d:\Dokumentumok\Spotify Music Guesser\web-api-auth-examples\client\src\util\Util.js                      | JavaScript |         22 |          4 |          7 |         33 |
+| Total                                                                                                    |            |      1,892 |         46 |        222 |      2,160 |
++----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

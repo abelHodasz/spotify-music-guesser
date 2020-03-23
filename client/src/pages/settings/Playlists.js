@@ -59,18 +59,23 @@ const Playlists = props => {
             let offset = 0;
             let allPlaylists = [];
             let newPlaylists = null;
-            if(props.playlistIds){
-                for(let id of props.playlistIds){
-                    newPlaylists = await GetPlaylist(spotify, id, state.accessToken);
+            if (props.playlistIds) {
+                for (let id of props.playlistIds) {
+                    newPlaylists = await GetPlaylist(
+                        spotify,
+                        id,
+                        state.accessToken
+                    );
                     console.log(newPlaylists);
-                    allPlaylists.push(newPlaylists)
+                    allPlaylists.push(newPlaylists);
                 }
-            }else do {
-                console.log(`Getting playlists from offset ${offset}`);
-                newPlaylists = await GetPlaylists(spotify, offset);
-                allPlaylists.push(...newPlaylists.items);
-                offset += 50;
-            } while (newPlaylists.next != null);
+            } else
+                do {
+                    console.log(`Getting playlists from offset ${offset}`);
+                    newPlaylists = await GetPlaylists(spotify, offset);
+                    allPlaylists.push(...newPlaylists.items);
+                    offset += 50;
+                } while (newPlaylists.next != null);
             setPlaylists(allPlaylists);
         } catch (e) {
             setErrorPlaylists(e);
@@ -84,7 +89,7 @@ const Playlists = props => {
         let selectedCopy = [...selectedPlaylists];
         if (selectedCopy.includes(playlist.id)) {
             setSelectedPlaylists(
-                selectedCopy.filter(playlistId => playlistId !=playlist.id)
+                selectedCopy.filter(playlistId => playlistId != playlist.id)
             );
         } else {
             selectedCopy.push(playlist.id);
@@ -104,7 +109,10 @@ const Playlists = props => {
                         description: playlist.description,
                         name: playlist.name,
                         id: playlist.id,
-                        image: playlist.images[0].url,
+                        image:
+                            playlist.images[0] != null
+                                ? playlist.images[0].url
+                                : "",
                         owner: playlist.owner.display_name
                     };
                     var anchor = /<a[\s]+([^>]+)>((?:.(?!<\/a>))*.)<\/a>/;
@@ -176,14 +184,14 @@ const GetPlaylists = (spotify, offset) => {
     return spotify.getUserPlaylists({ limit: 50, offset: offset });
 };
 
-async function GetPlaylist(spotify, playlistId, accessToken){
-    const url = "https://api.spotify.com/v1/playlists/" + playlistId
+async function GetPlaylist(spotify, playlistId, accessToken) {
+    const url = "https://api.spotify.com/v1/playlists/" + playlistId;
     const type = "GET";
     const response = await fetch(url, {
         method: type,
-        mode: 'cors',
+        mode: "cors",
         headers: {
-            "Authorization": "Bearer " + accessToken
+            Authorization: "Bearer " + accessToken
         }
     });
     return await response.json();

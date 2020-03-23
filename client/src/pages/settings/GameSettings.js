@@ -5,6 +5,7 @@ export default function GameSettings(props) {
     const [duration, setDuration] = props.duration;
     const [rounds, setRounds] = props.rounds;
     const [roundLength, setRoundLength] = props.roundLength;
+    const [powerUps, setPowerUps] = props.powerUps;
 
     const durationMarks = [
         {
