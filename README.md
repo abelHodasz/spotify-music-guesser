@@ -23,6 +23,20 @@ CLIENT_SECRET=<your client secret>
 
 ```
 
-## Running the app the source folder and run the run.bat file.
+## Running the app
+
+You will need two servers:
+
+```
+$cd authorization_code
+
+$node app.js
+```
+
+```
+$cd client
+
+$npm start
+```
 
 Then, open `http://localhost:8888` in a browser.
