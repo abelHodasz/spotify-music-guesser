@@ -4,22 +4,25 @@ This project was forked from the [spotify-web-api-auth](https://github.com/Kevin
 
 ## What's it about
 
-$ npm install
+It's a music guessing game. You have to create 2 teams and each round 1 team guesses the name of the track that is playing. You can use predefined playlists or your own playlists. If you have any questions, contact me on github. Have fun!
 
 ### Using your own credentials
+
 You will need to register your app and get your own credentials from the Spotify for Developers Dashboard.
 
-To do so, go to [your Spotify for Developers Dashboard](https://beta.developer.spotify.com/dashboard) and create your application. For the examples, we registered these Redirect URIs:
+To do so, go to [your Spotify for Developers Dashboard](https://beta.developer.spotify.com/dashboard) and create your application. For the examples, we registered this Redirect URI:
 
-* http://localhost:8888 (needed for the implicit grant flow)
-* http://localhost:8888/callback
+-   http://localhost:8888/callback
 
-Once you have created your app, replace the `client_id`, `redirect_uri` and `client_secret` in the examples with the ones you get from My Applications.
+Once you have created your app, replace `redirect_uri`with the one you get from My Applications.
+Create a .env file in the source directory and create two environment variables(copy this in the file, and replace with your credentials):
 
-## Running the examples
-In order to run the different examples, open the folder with the name of the flow you want to try out, and run its `app.js` file. For instance, to run the Authorization Code example do:
+```
+CLIENT_ID=<your client id>
+CLIENT_SECRET=<your client secret>
 
-    $ cd authorization_code
-    $ node app.js
+```
+
+## Running the app the source folder and run the run.bat file.
 
 Then, open `http://localhost:8888` in a browser.
