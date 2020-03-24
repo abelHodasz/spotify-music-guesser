@@ -10,15 +10,10 @@ export default function GameOver(props) {
             <h3>with the score of </h3>
             <h2>{props.winner.score}</h2>
             <br />
-            <h3>New Game</h3>
-            <div style={{ margin: "20px" }}>
-                <Button color="primary" variant="outlined">
-                    With same playlists
-                </Button>
-            </div>
+
             <div style={{ margin: "20px" }}>
                 <Button href="/settings" color="secondary" variant="outlined">
-                    With new playlists
+                    New Game
                 </Button>
             </div>
         </Container>

@@ -162,8 +162,15 @@
     function Welcome() {
 
       return (
-        <Container>
-          <Button variant="contained" color="primary" size="large" href="/login">Login</Button>
+        <Container style={{
+          height: "100vh",
+          width: "100vw",
+          display: "flex",
+          justifyContent: "center"
+        }} >
+          <Button
+            style={{ margin: "auto 0" }}
+            variant="contained" color="primary" size="large" href="/login">Login with spotify</Button>
         </Container>
       );
 

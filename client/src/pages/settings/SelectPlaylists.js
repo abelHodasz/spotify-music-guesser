@@ -3,7 +3,6 @@ import { Container } from "@material-ui/core";
 import Playlists from "./Playlists";
 import TooltipButton from "../util/TooltipButton";
 
-
 export default function SelectPlaylists(props) {
     const options = {
         OURPLAYLISTS: "ourPlaylists",
@@ -35,7 +34,16 @@ export default function SelectPlaylists(props) {
 
     const ourPlaylists = (
         <Suspense fallback={<div>Loading...</div>}>
-            <Playlists select={playlist => select(playlist)} playlistIds={["6rPJEvKov30LC3QvhmudPS?si=VDXZWUKeRPGa8W0G8bjaLg"]}/>
+            <Playlists
+                select={playlist => select(playlist)}
+                playlistIds={[
+                    "6rPJEvKov30LC3QvhmudPS?si=VDXZWUKeRPGa8W0G8bjaLg",
+                    "2H66cUDkZdAYa0V7Fi5u4H?si=ojp4M4SKSpqZ4U7P_MoBOg",
+                    "6kRCTRnpt8MvpA67T5NVQl?si=eqKx5Am3QgCof92i9FBZBw",
+                    "5LLznXbDPm7EocFta4heXz?si=6ovNEfB0QJmh1QzBUH0OiA",
+                    "6wEcUd48U0rkSeyOMij4KZ?si=es_7m-JASIioG1Pra8cbCw"
+                ]}
+            />
         </Suspense>
     );
     const selectOptions = (
@@ -60,12 +68,11 @@ export default function SelectPlaylists(props) {
                     color="secondary"
                     onClick={() => setOption(options.OURPLAYLISTS)}
                 >
-                    Our Playlists
+                    Music Guesser Playlists
                 </TooltipButton>
             </div>
         </Fragment>
     );
-
 
     switch (option) {
         case options.SELECTOPTIONS:
