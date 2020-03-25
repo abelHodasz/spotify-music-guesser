@@ -19,8 +19,8 @@ export default function GameSettings(props) {
     ];
     const roundsMarks = [
         {
-            value: 2,
-            label: "2"
+            value: 1,
+            label: "1"
         },
         {
             value: 20,
@@ -61,7 +61,7 @@ export default function GameSettings(props) {
             <Slider
                 className="slider"
                 value={rounds}
-                min={2}
+                min={1}
                 max={20}
                 onChange={(e, newValue) => setRounds(newValue)}
                 aria-label="rounds"
