@@ -14,7 +14,7 @@ To do so, go to [your Spotify for Developers Dashboard](https://beta.developer.s
 
 -   http://localhost:8888/callback
 
-Once you have created your app, replace `redirect_uri`with the one you get from My Applications.
+Once you have created your app, replace `redirect_uri` in `authorizaton_code\app.js` with the one you get from My Applications.
 Create a .env file in the source directory and create two environment variables(copy this in the file, and replace with your credentials):
 
 ```
@@ -30,11 +30,15 @@ You will need two servers:
 ```
 $cd authorization_code
 
+$npm install
+
 $node app.js
 ```
 
 ```
 $cd client
+
+$npm install
 
 $npm start
 ```
